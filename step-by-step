@@ -1,0 +1,21 @@
+🛠️ Setup Instructions
+1. Prerequisites
+XAMPP (or any local server with PHP 8.0+ and MySQL).
+
+A browser (Chrome/Edge recommended).
+
+2. Database Installation
+Open phpMyAdmin (http://localhost/phpmyadmin).
+
+Create a new database named tech_store.
+
+Click the Import tab.
+
+Choose the provided tech_store.sql file and click Go.
+
+3. Files Setup
+Move the phone-store folder into your XAMPP htdocs directory (usually C:\xampp\htdocs\).
+
+Ensure the uploads/ folder exists and has write permissions.
+
+Open your browser and navigate to http://localhost/phone-store/index.php.

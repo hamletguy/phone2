@@ -1,0 +1,342 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+:root {
+    --black: #121212;
+    --white: #ffffff;
+    --gray-bg: #fdfdfd;     /* Very light background */
+    --card-bg: #f5f5f7;     /* Slightly darker "Apple-style" gray for cards */
+    --gray-border: #e8e8ed;
+    --accent: #0071e3;
+    --radius: 16px;         /* Increased roundness for a more modern feel */
+}
+
+* {
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    margin: 0;
+    background-color: var(--gray-bg); /* The main background is now almost pure white */
+    color: var(--black);
+    line-height: 1.6;
+}
+
+/* Navbar - Clean & Floating */
+header {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--gray-border);
+    padding: 15px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -1px;
+}
+
+nav a {
+    color: var(--black);
+    text-decoration: none;
+    margin-left: 25px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: var(--accent);
+}
+
+/* Main Container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* Search Bar - Modern Pill Shape */
+input[type="text"] {
+    width: 100%;
+    max-width: 500px;
+    display: block;
+    margin: 0 auto 50px auto;
+    padding: 15px 25px;
+    border-radius: 50px;
+    border: 1px solid var(--gray-border);
+    background: var(--gray-light);
+    font-size: 1rem;
+    outline: none;
+    transition: border 0.3s;
+}
+
+input[type="text"]:focus {
+    border-color: var(--accent);
+}
+
+/* Product Grid */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+/* Product Card - Clean Card Look */
+.card {
+    background: var(--card-bg); /* Card is now slightly darker than the background */
+    border: 1px solid var(--gray-border);
+    border-radius: var(--radius);
+    padding: 24px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02); /* Soft, subtle shadow */
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    background: #eeeef0; /* Darkens even more on hover */
+    box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+    border-color: #d2d2d7;
+}
+
+.card img {
+    mix-blend-mode: multiply; /* This makes white backgrounds on images disappear into the gray card */
+    width: 100%;
+    height: 250px;
+    object-fit: contain;
+    margin-bottom: 20px;
+}
+
+.card h3 {
+    font-size: 1.1rem;
+    margin: 10px 0;
+    font-weight: 600;
+}
+
+.card p {
+    color: #6e6e73;
+    font-size: 0.9rem;
+    margin: 5px 0;
+}
+
+.card .price {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 15px 0;
+}
+
+/* Button - Rounded & Bold */
+.btn {
+    background: var(--black);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 50px;
+    text-align: center;
+    font-weight: 600;
+    transition: background 0.3s, transform 0.2s;
+    border: none;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: var(--accent);
+    transform: scale(1.02);
+}
+
+/* Tables for Admin/Cart */
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+}
+
+th {
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    color: #888;
+    padding: 10px;
+}
+
+td {
+    background: var(--gray-light);
+    padding: 20px;
+}
+
+td:first-child { border-radius: 10px 0 0 10px; }
+td:last-child { border-radius: 0 10px 10px 0; }
+
+
+/* --- Admin Dashboard Specific Styles --- */
+
+.admin-wrapper {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.admin-card {
+    background: var(--white);
+    border: 1px solid var(--gray-border);
+    border-radius: var(--radius);
+    padding: 30px;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.admin-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+/* Make full-width inputs in the admin form */
+.admin-card input, 
+.admin-card select {
+    width: 100%;
+    padding: 12px 15px;
+    margin-top: 8px;
+    border-radius: 8px;
+    border: 1px solid var(--gray-border);
+    background: var(--gray-light);
+    font-size: 0.95rem;
+}
+
+.admin-card label {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #555;
+}
+
+/* Table styling for Inventory */
+.inventory-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: var(--white);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.inventory-table th {
+    background: var(--black);
+    color: var(--white);
+    text-align: left;
+    padding: 15px;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}
+
+.inventory-table td {
+    padding: 15px;
+    border-bottom: 1px solid var(--gray-border);
+    background: var(--white); /* Keep table rows white for contrast */
+    vertical-align: middle;
+}
+
+.btn-delete {
+    color: #ff3b30;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 5px 10px;
+    border: 1px solid #ff3b30;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+.btn-delete:hover {
+    background: #ff3b30;
+    color: white;
+}
+
+
+/* Add this to style.css */
+.btn-remove {
+    background: #f5f5f7;
+    color: #121212;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.btn-remove:hover {
+    background: #ff3b30;
+    color: white;
+}
+
+
+/* --- Scoped Auth Styles (Login/Register Only) --- */
+
+/* This targets the body ONLY on auth pages */
+body.auth-page {
+    background-color: #fbfbfd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.auth-card {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 24px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.04);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    border: 1px solid rgba(0,0,0,0.02);
+}
+
+.auth-card h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.auth-card p {
+    color: #86868b;
+    margin-bottom: 24px;
+    font-size: 0.95rem;
+}
+
+/* Styled inputs only inside the auth card */
+.auth-card input {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 12px;
+    border: 1.5px solid #d2d2d7;
+    border-radius: 12px;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.2s;
+}
+
+.auth-card input:focus {
+    border-color: #0071e3;
+    box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
+}
+
+.auth-card .btn {
+    width: 100%;
+    margin-top: 10px;
+    padding: 14px;
+}

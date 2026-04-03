@@ -11,11 +11,20 @@
     <nav>
         <a href="index.php">Shop</a>
         <a href="cart.php">Cart (<?php echo isset($_SESSION['cart']) ? array_sum($_SESSION['cart']) : 0; ?>)</a>
-        <?php if(isset($_SESSION['u'])): ?>
-            <?php if($_SESSION['r'] == 'admin'): ?><a href="admin.php">Admin Panel</a><?php endif; ?>
+    
+        <?php if(isset($_SESSION['username'])): ?>
+            <span style="margin-right: 10px; color: #64748b;">
+                Hi, <?php echo htmlspecialchars($_SESSION['username']); ?>
+            </span>
+            
+            <?php if(isset($_SESSION['r']) && $_SESSION['r'] == 'admin'): ?>
+                <a href="admin.php">Admin Panel</a>
+            <?php endif; ?>
+        
             <a href="logout.php">Logout</a>
         <?php else: ?>
             <a href="login.php">Login</a>
+            <a href="register.php">Register</a>
         <?php endif; ?>
     </nav>
 </header>
@@ -32,12 +41,10 @@
         $res = $conn->query("SELECT * FROM products WHERE is_active = 1 AND name LIKE '%$s%'");
         
         while($r = $res->fetch_assoc()): 
-            // Fetch all images for this specific product for the hover effect
             $img_res = $conn->query("SELECT image_path FROM product_images WHERE product_id = " . $r['id']);
             $imgs = [];
             while($img = $img_res->fetch_assoc()) { $imgs[] = $img['image_path']; }
             
-            // Fallback to the main image_url if no gallery images exist
             if(empty($imgs)) { $imgs[] = $r['image_url']; }
         ?>
             <a href="product_details.php?id=<?php echo $r['id']; ?>" style="text-decoration: none; color: inherit;">
@@ -55,7 +62,8 @@
                     <h3><?php echo $r['name']; ?></h3>
                     <p class="price" style="font-weight: 700; font-size: 1.2rem;">$<?php echo number_format($r['price'], 2); ?></p>
                     
-                    <object><a href="add_to_cart.php?id=<?php echo $r['id']; ?>" class="btn" style="display: block; text-align: center; margin-top: 10px;">Add to Cart</a>
+                    <object>
+                        <a href="add_to_cart.php?id=<?php echo $r['id']; ?>" class="btn" style="display: block; text-align: center; margin-top: 10px;">Add to Cart</a>
                     </object>
                 </div>
             </a>
@@ -75,7 +83,7 @@
             images[i].style.opacity = 0;
             i = (i + 1) % images.length;
             images[i].style.opacity = 1;
-        }, 1500); // Cycles every 1 second
+        }, 1500);
         
         intervals.set(card, interval);
     }
@@ -85,7 +93,6 @@
             clearInterval(intervals.get(card));
             intervals.delete(card);
         }
-        // Reset to the first image
         const images = card.querySelectorAll('.cycle-img');
         images.forEach((img, idx) => {
             img.style.opacity = (idx === 0 ? '1' : '0');

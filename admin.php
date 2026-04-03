@@ -15,7 +15,6 @@ if(isset($_POST['add'])){
     $sto  = $_POST['s'];
     $desc = $_POST['d']; 
 
-    // Insert product details (including is_active as 1 by default)
     $stmt = $conn->prepare("INSERT INTO products (name, category, price, stock, description, is_active) VALUES (?, ?, ?, ?, ?, 1)");
     $stmt->bind_param("ssdis", $name, $cat, $pri, $sto, $desc);
     
@@ -47,16 +46,47 @@ if(isset($_POST['add'])){
 // 3. Delete Product Logic (Soft Delete)
 if(isset($_GET['delete'])){
     $id = $conn->real_escape_string($_GET['delete']);
-    // We update is_active to 0 so it stays in the DB for orders but hides from the shop
     $conn->query("UPDATE products SET is_active = 0 WHERE id = $id");
     header("Location: admin.php"); 
     exit();
 }
-?> <!DOCTYPE html>
+?> 
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Admin Panel</title>
+    <title>Admin Panel | Inventory</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* New styles for the Action buttons */
+        .action-links {
+            display: flex;
+            gap: 10px;
+        }
+        .btn-edit {
+            background: #2563eb;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+        }
+        .btn-edit:hover {
+            background: #1d4ed8;
+        }
+        .btn-delete {
+            background: #ef4444;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+        }
+        .btn-delete:hover {
+            background: #dc2626;
+        }
+    </style>
 </head>
 <body class="container">
     <div class="admin-wrapper">
@@ -107,10 +137,10 @@ if(isset($_GET['delete'])){
         </div>
 
         <h3>Active Inventory</h3>
-        <table class="inventory-table" style="width: 100%; margin-top: 20px;">
+        <table class="inventory-table" style="width: 100%; margin-top: 20px; border-collapse: collapse;">
             <thead>
-                <tr>
-                    <th>Product</th>
+                <tr style="text-align: left; border-bottom: 2px solid #eee;">
+                    <th style="padding: 10px;">Product</th>
                     <th>Category</th>
                     <th>Price</th>
                     <th>Stock</th>
@@ -119,10 +149,9 @@ if(isset($_GET['delete'])){
             </thead>
             <tbody>
                 <?php
-                // Only select products where is_active is 1
                 $res = $conn->query("SELECT * FROM products WHERE is_active = 1 ORDER BY id DESC");
                 while($row = $res->fetch_assoc()): ?>
-                <tr>
+                <tr style="border-bottom: 1px solid #eee;">
                     <td style="display: flex; align-items: center; gap: 15px; padding: 10px;">
                         <img src="<?php echo $row['image_url']; ?>" style="width: 45px; height: 45px; object-fit: cover; border-radius: 8px;">
                         <strong><?php echo $row['name']; ?></strong>
@@ -131,7 +160,11 @@ if(isset($_GET['delete'])){
                     <td>$<?php echo number_format($row['price'], 2); ?></td>
                     <td><?php echo $row['stock']; ?></td>
                     <td>
-                        <a href="admin.php?delete=<?php echo $row['id']; ?>" class="btn-delete" onclick="return confirm('Remove this item?')">Delete</a>
+                        <div class="action-links">
+                            <a href="edit-product.php?id=<?php echo $row['id']; ?>" class="btn-edit">Edit</a>
+                            
+                            <a href="admin.php?delete=<?php echo $row['id']; ?>" class="btn-delete" onclick="return confirm('Remove this item?')">Delete</a>
+                        </div>
                     </td>
                 </tr>
                 <?php endwhile; ?>
